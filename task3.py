@@ -37,7 +37,7 @@ genres_to_add = [
 
 for genre_name in genres_to_add:
     genre_payload = {
-        "genre": genre_name
+        "name": genre_name
     }
     response = requests.post(genre_create_url, json=genre_payload)
     
@@ -74,14 +74,6 @@ for page_num in range(num_page):
         details_link=str(scrap_data.find('a',{'title':title_text})['href'])
         
         
-        data.append({
-            'title': title_text,
-            "genre":genre_text,
-            "description" : description_text,
-            "image_url": "https://readm.org" + str(scrap_data.find('img',{"alt":title_text})['src']),
-            # 'details_link':details_link,
-        }) 
-        
         import requests
 
         api_key = "458797782b271c2b61c2c018588f7f60"
@@ -104,6 +96,16 @@ for page_num in range(num_page):
         else:
             print("Image upload failed. Status code:", response.status_code)
 
+        
+        data.append({
+            'title': title_text,
+            "genre":genre_text,
+            "description" : description_text,
+            "image_url": image_url,
+            # 'details_link':details_link,
+        }) 
+        
+        
         
         
         
