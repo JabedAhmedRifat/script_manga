@@ -2,8 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-# manga_create_url='http://localhost:8001/manga-create/'
-# genre_create_url='http://localhost:8001/genre-create/'
+manga_create_url='http://localhost:8000/manga-create/'
+genre_create_url='http://localhost:8000/genre-create/'
 
 
 
@@ -35,16 +35,16 @@ genres_to_add = [
     
 ]
 
-# for genre_name in genres_to_add:
-#     genre_payload = {
-#         "genre": genre_name
-#     }
-#     response = requests.post(genre_create_url, json=genre_payload)
+for genre_name in genres_to_add:
+    genre_payload = {
+        "genre": genre_name
+    }
+    response = requests.post(genre_create_url, json=genre_payload)
     
-#     if response.status_code == 201:
-#         print("Response status code:", response.status_code)
-#     else:
-#         print("Response content:", response.content)
+    if response.status_code == 201:
+        print("Response status code:", response.status_code)
+    else:
+        print("Response content:", response.content)
 
 
 num_page = 5
@@ -114,17 +114,17 @@ for page_num in range(num_page):
                 "description": entry['description'],
                 "author" : "jabed",
                 "popularity":9,
-                "image link": entry['image_url']
+                "coverImg": entry['image_url']
                 }
             print(manga_payload)
                 
                     
-            # response = requests.post(manga_create_url, json=manga_payload)
+            response = requests.post(manga_create_url, json=manga_payload)
                         
-            # if response.status_code == 201:
-            #     print("Response status code:", response.status_code)
-            # else:
-            #     print("Response content:", response.content)
+            if response.status_code == 201:
+                print("Response status code:", response.status_code)
+            else:
+                print("Response content:", response.content)
         
                     
         
