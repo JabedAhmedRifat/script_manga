@@ -74,6 +74,7 @@ for page_num in range(num_page):
         details_link=str(scrap_data.find('a',{'title':title_text})['href'])
         
         
+        #calling imgbb api and passed image url to save image on imgbb
         import requests
 
         api_key = "458797782b271c2b61c2c018588f7f60"
@@ -102,7 +103,7 @@ for page_num in range(num_page):
             "genre":genre_text,
             "description" : description_text,
             "image_url": image_url,
-            # 'details_link':details_link,
+            'details_link':details_link,
         }) 
         
         
@@ -130,26 +131,25 @@ for page_num in range(num_page):
         
                     
         
-            # # details start
-            # details_result= scrape_manga_data("https://readm.org"+ details_link)
+            # details start
+            details_result= scrape_manga_data("https://readm.org"+ details_link)
                 
-            #     # chapter Start
+            # chapter Start
                 
-            # episod = details_result.find_all("h6", {"class":"truncate"})
+            episod = details_result.find_all("h6", {"class":"truncate"})
             
-            # for e in episod:
-            #     # print(e.text)
-            #     # print(e.a['href'])
-            #     chapter_link = "https://readm.org"+(e.a['href'])
+            for e in episod:
+                # print(e.text)
+                # print(e.a['href'])
+                chapter_link = "https://readm.org"+(e.a['href'])
                 
-            #     #scrap image from each chapter 
+                #scrap image from each chapter 
                 
-            #     scrap = scrape_manga_data(chapter_link)
-            #     image_elements = scrap.find_all('img',{'class':'img-responsive'})
-            #     for p in image_elements:
-            #         image_link = "https://readm.org"+ p['src']
-
-            #         if not image_link.endswith(('/1/111/mm1.png?v=12','1/111/rm2.png?v=12')):          
-            #             pass
-            #             # print(image_link)
+                scrap = scrape_manga_data(chapter_link)
+                image_elements = scrap.find_all('img',{'class':'img-responsive'})
+                for p in image_elements:
+                    image_link = "https://readm.org"+ p['src']
+                    if not image_link.endswith(('/1/111/mm1.png?v=12','1/111/rm2.png?v=12')):          
+                        pass
+                        # print(image_link)
                         
