@@ -14,13 +14,10 @@ Before using these scripts, make sure you have the following dependencies instal
 
 You can install the required libraries using pip:
 
-```bash or powershell
+bash or powershell
 pip install -r requirements.txt
 
 
-
-
-![scrapper](https://github.com/JabedAhmedRifat/script_manga/assets/59837168/faf92409-3e32-4d75-b6f4-1ec5a0b8428a)
 
 
 
