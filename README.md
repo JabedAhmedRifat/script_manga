@@ -17,4 +17,8 @@ You can install the required libraries using pip:
 ```bash or powershell
 pip install -r requirements.txt
 
+![scrapper](https://github.com/JabedAhmedRifat/script_manga/assets/59837168/555bd3e8-8600-43b8-af2c-af5db69571d4)
+
+
+
 
