@@ -4,6 +4,7 @@ import pandas as pd
 
 manga_create_url='http://localhost:8000/manga-create/'
 genre_create_url='http://localhost:8000/genre-create/'
+chapter_create_url = 'http://localhost:8000/chapter-create/'
 
 
 
@@ -20,34 +21,35 @@ def save_data_to_excel(data, excel_filename):
     # print({excel_filename})
 # ///////////////////////////////////////////////////////////////////////////
 
-genres_to_add = [
-    "Action",
-    "Adventure",
-    "Fantasy",
-    "Romance",
-    "Comedy",
-    "Martial Arts",
-    "Historical",
-    "Shounen",
-    "Isekai",
-    "Drama",
-    "Supernatural",
+# genres_to_add = [
+#     "Action",
+#     "Adventure",
+#     "Fantasy",
+#     "Romance",
+#     "Comedy",
+#     "Martial Arts",
+#     "Historical",
+#     "Shounen",
+#     "Isekai",
+#     "Drama",
+#     "Supernatural",
     
-]
+# ]
 
-for genre_name in genres_to_add:
-    genre_payload = {
-        "name": genre_name
-    }
-    response = requests.post(genre_create_url, json=genre_payload)
+# for genre_name in genres_to_add:
+#     genre_payload = {
+#         "name": genre_name
+#     }
+#     response = requests.post(genre_create_url, json=genre_payload)
     
-    if response.status_code == 201:
-        print("Response status code:", response.status_code)
-    else:
-        print("Response content:", response.content)
+#     if response.status_code == 201:
+#         print("Response status code:", response.status_code)
+#     else:
+#         print("Response content:", response.content)
 
 
 num_page = 5
+manga_id = None
 
 for page_num in range(num_page):
     if page_num == 0:
@@ -75,6 +77,7 @@ for page_num in range(num_page):
         
         
         #calling imgbb api and passed image url to save image on imgbb
+        
         import requests
 
         api_key = "458797782b271c2b61c2c018588f7f60"
@@ -119,37 +122,60 @@ for page_num in range(num_page):
                 "popularity":9,
                 "coverImg": entry['image_url']
                 }
-            print(manga_payload)
+            # print(manga_payload)
                 
                     
             response = requests.post(manga_create_url, json=manga_payload)
-                        
-            if response.status_code == 201:
-                print("Response status code:", response.status_code)
-            else:
+            
+            
+            # response_content_str = response.content.decode('utf-8')            
+            if response.status_code == 200:
+                manga_data = response.json()
+                manga_id = manga_data['id']
+                print(manga_id)
                 print("Response content:", response.content)
+            else:
+                print(manga_id)
+                print("Response status code:", response.status_code)
         
                     
         
-            # details start
+            # getting details page
             details_result= scrape_manga_data("https://readm.org"+ details_link)
+            
                 
-            # chapter Start
+            # from details page getting chapter 
                 
             episod = details_result.find_all("h6", {"class":"truncate"})
             
             for e in episod:
-                # print(e.text)
+                
+                chapter_num = e.text
+                
                 # print(e.a['href'])
                 chapter_link = "https://readm.org"+(e.a['href'])
                 
+                
+                chapter_payload = {
+                    'manga' : manga_id,
+                    'chapter' : chapter_num
+                }
+                    
+                response = requests.post(chapter_create_url, json= chapter_payload)
+                    
+                if response.status_code == 200:
+                    print('Response status code:', response.content)
+                else: 
+                    print('Response content:', response.status_code)
+                    
+                    
                 #scrap image from each chapter 
                 
-                scrap = scrape_manga_data(chapter_link)
-                image_elements = scrap.find_all('img',{'class':'img-responsive'})
-                for p in image_elements:
-                    image_link = "https://readm.org"+ p['src']
-                    if not image_link.endswith(('/1/111/mm1.png?v=12','1/111/rm2.png?v=12')):          
-                        pass
-                        # print(image_link)
+                # scrap = scrape_manga_data(chapter_link)
+                # image_elements = scrap.find_all('img',{'class':'img-responsive'})
+                # for p in image_elements:
+                #     image_link = "https://readm.org"+ p['src']
+                #     if not image_link.endswith(('/1/111/mm1.png?v=12','1/111/rm2.png?v=12')):          
+                #         pass
+                #         # print(image_link)
                         
