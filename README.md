@@ -1,4 +1,4 @@
-# script_manga
+
 
 # Manga Scraper Scripts
 
