@@ -18,7 +18,9 @@ You can install the required libraries using pip:
 pip install -r requirements.txt
 
 
-![scrapper](https://github.com/JabedAhmedRifat/script_manga/assets/59837168/15feb118-77d3-411e-bfde-b00e51458f0f)
+
+
+![scrapper](https://github.com/JabedAhmedRifat/script_manga/assets/59837168/faf92409-3e32-4d75-b6f4-1ec5a0b8428a)
 
 
 
