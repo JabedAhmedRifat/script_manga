@@ -5,7 +5,7 @@ import pandas as pd
 manga_create_url='http://localhost:8000/manga-create/'
 genre_create_url='http://localhost:8000/genre-create/'
 chapter_create_url = 'http://localhost:8000/chapter-create/'
-
+page_create_url = 'http://localhost:8000/page-create/'
 
 
 def scrape_manga_data(url):
@@ -164,18 +164,53 @@ for page_num in range(num_page):
                 response = requests.post(chapter_create_url, json= chapter_payload)
                     
                 if response.status_code == 200:
-                    print('Response status code:', response.content)
+                    chapter_data= response.json()
+                    chapter_id = chapter_data['id']
+                    print(chapter_id)
+                    print('Response content:', response.content)
                 else: 
-                    print('Response content:', response.status_code)
+                    print('Response status code:', response.status_code)
                     
                     
                 #scrap image from each chapter 
                 
-                # scrap = scrape_manga_data(chapter_link)
-                # image_elements = scrap.find_all('img',{'class':'img-responsive'})
-                # for p in image_elements:
-                #     image_link = "https://readm.org"+ p['src']
-                #     if not image_link.endswith(('/1/111/mm1.png?v=12','1/111/rm2.png?v=12')):          
-                #         pass
-                #         # print(image_link)
+                scrap = scrape_manga_data(chapter_link)
+                image_elements = scrap.find_all('img',{'class':'img-responsive'})
+                for p in image_elements:
+                    image_link = "https://readm.org"+ p['src']
+                    if not image_link.endswith(('/1/111/mm1.png?v=12','1/111/rm2.png?v=12')):          
+                        
+                        import requests
+
+                        api_key = "458797782b271c2b61c2c018588f7f60"
+                        upload_url = "https://api.imgbb.com/1/upload"
+
+                        
+                        image_url = "https://readm.org"+ p['src']
+
+                        payload = {
+                            "key": api_key,
+                            "image": image_url
+                        }
+
+                        response = requests.post(upload_url, data=payload)
+
+                        if response.status_code == 200:
+                            data_json = response.json()
+                            image_url = data_json["data"]["url"]
+                            print("Image uploaded successfully. URL:", image_url)
+                        else:
+                            print("Image upload failed. Status code:", response.status_code)
+                        
+                        page_payload = {
+                            'chapter': chapter_id,
+                            'imagePath' : image_url
+                        }
+                        
+                        response = requests.post(page_create_url, json=page_payload)
+                        
+                        if response.status_code == 200:
+                            print('Response content:', response.content)
+                        else:
+                            print('Response status code:', response.status_code)
                         
