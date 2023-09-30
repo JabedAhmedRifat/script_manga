@@ -2,6 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
+# imgbb
+imgbb_api_key = "458797782b271c2b61c2c018588f7f60"
+upload_url = "https://api.imgbb.com/1/upload"
+
+# DRF link for posting
 manga_create_url='http://localhost:8000/manga-create/'
 genre_create_url='http://localhost:8000/genre-create/'
 chapter_create_url = 'http://localhost:8000/chapter-create/'
@@ -76,18 +81,13 @@ for page_num in range(num_page):
         details_link=str(scrap_data.find('a',{'title':title_text})['href'])
         
         
-        #calling imgbb api and passed image url to save image on imgbb
         
-        import requests
+        #calling imgbb api and passed image url to save image on imgbb for cover image of each manga
 
-        api_key = "458797782b271c2b61c2c018588f7f60"
-        upload_url = "https://api.imgbb.com/1/upload"
-
-        
         image_url = "https://readm.org" + str(scrap_data.find('img',{"alt":title_text})['src'])
 
         payload = {
-            "key": api_key,
+            "key": imgbb_api_key,
             "image": image_url
         }
 
@@ -128,7 +128,7 @@ for page_num in range(num_page):
             response = requests.post(manga_create_url, json=manga_payload)
             
             
-            # response_content_str = response.content.decode('utf-8')            
+                      
             if response.status_code == 200:
                 manga_data = response.json()
                 manga_id = manga_data['id']
@@ -180,16 +180,12 @@ for page_num in range(num_page):
                     image_link = "https://readm.org"+ p['src']
                     if not image_link.endswith(('/1/111/mm1.png?v=12','1/111/rm2.png?v=12')):          
                         
-                        import requests
-
-                        api_key = "458797782b271c2b61c2c018588f7f60"
-                        upload_url = "https://api.imgbb.com/1/upload"
-
-                        
+                        # calling imgbb api to save image of each page of each episod 
+            
                         image_url = "https://readm.org"+ p['src']
 
                         payload = {
-                            "key": api_key,
+                            "key": imgbb_api_key,
                             "image": image_url
                         }
 
