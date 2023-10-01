@@ -26,31 +26,31 @@ def save_data_to_excel(data, excel_filename):
     # print({excel_filename})
 # ///////////////////////////////////////////////////////////////////////////
 
-# genres_to_add = [
-#     "Action",
-#     "Adventure",
-#     "Fantasy",
-#     "Romance",
-#     "Comedy",
-#     "Martial Arts",
-#     "Historical",
-#     "Shounen",
-#     "Isekai",
-#     "Drama",
-#     "Supernatural",
+genres_to_add = [
+    "Action",
+    "Adventure",
+    "Fantasy",
+    "Romance",
+    "Comedy",
+    "Martial Arts",
+    "Historical",
+    "Shounen",
+    "Isekai",
+    "Drama",
+    "Supernatural",
     
-# ]
+]
 
-# for genre_name in genres_to_add:
-#     genre_payload = {
-#         "name": genre_name
-#     }
-#     response = requests.post(genre_create_url, json=genre_payload)
+for genre_name in genres_to_add:
+    genre_payload = {
+        "name": genre_name
+    }
+    response = requests.post(genre_create_url, json=genre_payload)
     
-#     if response.status_code == 201:
-#         print("Response status code:", response.status_code)
-#     else:
-#         print("Response content:", response.content)
+    if response.status_code == 201:
+        print("Response status code:", response.status_code)
+    else:
+        print("Response content:", response.content)
 
 
 num_page = 5
@@ -209,4 +209,3 @@ for page_num in range(num_page):
                             print('Response content:', response.content)
                         else:
                             print('Response status code:', response.status_code)
-                        
